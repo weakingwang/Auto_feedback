@@ -142,8 +142,8 @@ npm run dev -- --host 0.0.0.0 --port 5173
 
 默认访问地址：
 
-- 前端：`http://127.0.0.1:5173`
-- 后端健康检查：`http://127.0.0.1:3000/health`
+- 前端：`http://47.95.113.32`
+- 后端健康检查：`http://47.95.113.32/api/admin/feedbacks/view`
 
 ## Docker 部署
 
