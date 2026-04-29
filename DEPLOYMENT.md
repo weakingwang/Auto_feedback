@@ -79,7 +79,7 @@ Services:
 | `backend` | `feedback_backend` | Express API, upload handling, AI analysis, Feishu report job. |
 | `frontend` | `feedback_frontend` | Nginx static frontend and reverse proxy. |
 
-On first startup, MySQL executes `mysql/init.sql` and creates:
+On first startup, MySQL executes `infra/mysql/init.sql` and creates:
 
 - `raw_data.feedbacks`
 - `processed_data.ai_analysis`

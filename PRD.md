@@ -20,7 +20,7 @@
 
 | 层级 | 技术选型 | 说明 |
 |------|----------|------|
-| 前端 | Vue.js 3 | 保持现有main.css视觉风格 |
+| 前端 | Vue.js 3 | 保持 `docs/reference/main.css` 视觉风格 |
 | 后端 | Node.js + Express | RESTful API |
 | AI模型 | Qwen2.5-VL | 阿里云DashScope API |
 | 数据库 | MySQL 8.0 | Docker部署，同一实例双库 |
@@ -60,7 +60,7 @@
 ## 4. 前端设计
 
 ### 4.1 页面布局
-基于main.css的两栏响应式布局：
+基于 `docs/reference/main.css` 的两栏响应式布局：
 
 **左栏（40%）- 反馈提交表单**
 - glass-card卡片样式
@@ -293,7 +293,7 @@ Content-Type: multipart/form-data
 
 ### 6.3 提示词
 
-使用 ai_prompt.md 中的完整提示词，核心约束：
+使用 `docs/reference/ai_prompt.md` 中的完整提示词，核心约束：
 - 只输出JSON对象，不要Markdown代码块
 - 不要输出任何解释性文字
 - 所有字段必须返回，无法判断填`unknown`
@@ -434,7 +434,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./infra/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - feedback_network
 
@@ -540,7 +540,7 @@ server {
 ## 9. 开发计划
 
 ### Phase 1: 基础框架（Day 1）
-- [ ] 初始化Vue前端项目，集成main.css
+- [ ] 初始化 Vue 前端项目，集成 `docs/reference/main.css`
 - [ ] 初始化Node后端项目，配置Express
 - [ ] 配置Docker Compose（MySQL）
 - [ ] 编写数据库初始化脚本
@@ -616,10 +616,10 @@ server {
 ## 附录
 
 ### A. AI提示词完整版
-参见 ai_prompt.md 文件
+参见 `docs/reference/ai_prompt.md` 文件
 
 ### B. 前端样式参考
-参见 main.css 文件
+参见 `docs/reference/main.css` 文件
 
 ### C. API文档
 - DashScope API: your API

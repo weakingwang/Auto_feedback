@@ -58,7 +58,8 @@ auto_feedback/
 +-- frontend/                # Vue 3 前端应用
 |   +-- src/components/      # 表单、列表、上传、统计组件
 |   +-- src/utils/api.js     # Axios API 封装
-+-- mysql/init.sql           # 数据库和表初始化脚本
++-- infra/mysql/init.sql     # 数据库和表初始化脚本
++-- docs/                    # 参考资料、提示词和开发计划
 +-- uploads/                 # 运行时上传目录挂载点
 +-- docker-compose.yml       # Docker Compose 编排
 +-- DEPLOYMENT.md            # 部署说明
@@ -112,10 +113,10 @@ NODE_ENV=production
 
 ### 3. 初始化数据库
 
-Docker Compose 首次启动会自动执行 `mysql/init.sql`。如果使用本地 MySQL，需要手动导入：
+Docker Compose 首次启动会自动执行 `infra/mysql/init.sql`。如果使用本地 MySQL，需要手动导入：
 
 ```bash
-mysql -uroot -p < mysql/init.sql
+mysql -uroot -p < infra/mysql/init.sql
 ```
 
 初始化脚本会创建：
