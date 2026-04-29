@@ -1,0 +1,7 @@
+.git
+.claude
+**/node_modules
+**/npm-debug.log
+**/.DS_Store
+backend/uploads/charts
+auto_feedback-deploy.tar.gz
