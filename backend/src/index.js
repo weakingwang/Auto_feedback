@@ -13,6 +13,8 @@ dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 3000
+const DAILY_REPORT_CRON = process.env.DAILY_REPORT_CRON || '0 9 * * *'
+const DAILY_REPORT_TIMEZONE = process.env.DAILY_REPORT_TIMEZONE || 'Asia/Shanghai'
 
 // 中间件
 app.use(cors())
@@ -56,14 +58,14 @@ const startServer = async () => {
   })
 }
 
-// 配置定时任务（每天早上9点）
-cron.schedule('0 9 * * *', async () => {
+// 配置定时任务，默认每天 09:00，可通过环境变量覆盖
+cron.schedule(DAILY_REPORT_CRON, async () => {
   console.log('执行定时任务: 发送日报')
   await sendDailyReport()
 }, {
-  timezone: 'Asia/Shanghai'
+  timezone: DAILY_REPORT_TIMEZONE
 })
-console.log('定时任务已配置: 每天09:00发送飞书日报')
+console.log(`定时任务已配置: ${DAILY_REPORT_CRON} (${DAILY_REPORT_TIMEZONE})`)
 
 // 手动触发飞书推送（测试用）
 app.post('/api/admin/send-report', async (req, res) => {

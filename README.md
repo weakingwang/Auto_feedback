@@ -13,6 +13,32 @@
 
 ---
 
+## 界面预览
+
+<p align="center">
+  <img src="./docs/assets/Website.png" alt="Auto Feedback 前端反馈页面预览" width="900" />
+</p>
+
+<p align="center">
+  <a href="http://47.95.113.32">Website</a> ·
+  <a href="http://47.95.113.32/api/admin/feedbacks/view">Admin</a> ·
+  <a href="#api-概览">API</a> ·
+  <a href="./DEPLOYMENT.md">Deployment</a>
+</p>
+
+<p align="center">
+  <img src="./docs/assets/Admin.png" alt="Auto Feedback 后台反馈追踪查询页面预览" width="900" />
+</p>
+
+<p align="center">
+  <a href="#反馈接口">Feedback API</a> ·
+  <a href="#统计与管理接口">Admin API</a> ·
+  <a href="#环境变量">Config</a> ·
+  <a href="./DEBUGGING_PLAYBOOK.md">Troubleshooting</a>
+</p>
+
+---
+
 ## 亮点速览
 
 - **匿名提交**：用户无需登录即可提交问题类型、问题描述、上下文、环境信息、联系方式和截图。
@@ -20,13 +46,14 @@
 - **AI 自动归因**：输出根因、功能模块、用户意图、流程阶段、严重程度、置信度和判断依据。
 - **反馈看板**：前端实时展示统计摘要、反馈列表和截图预览。
 - **管理追踪**：内置 HTML 管理页面，支持关键词、日期、问题类型和 AI 分类字段筛选。
-- **飞书日报**：每天 09:00 按 Asia/Shanghai 时区推送前一日反馈概览，也可手动触发。
+- **飞书日报**：默认每天 09:00 按 Asia/Shanghai 时区推送前一日反馈概览，执行时间可通过 `.env` 配置，也可手动触发。
 - **容器化部署**：内置 MySQL、Express 后端和 Nginx 前端服务，适合服务器快速落地。
 
 ---
 
 ## 目录
 
+- [界面预览](#界面预览)
 - [亮点速览](#亮点速览)
 - [技术栈](#技术栈)
 - [目录结构](#目录结构)
@@ -94,6 +121,8 @@ DB_PASSWORD=change_me_to_a_strong_password
 DASHSCOPE_API_KEY=your_dashscope_api_key
 FEISHU_WEBHOOK_URL=your_feishu_bot_webhook_url
 REPORT_PUBLIC_BASE_URL=http://your-domain-or-server-ip
+DAILY_REPORT_CRON=0 9 * * *
+DAILY_REPORT_TIMEZONE=Asia/Shanghai
 ```
 
 本地开发时，如果 MySQL 运行在宿主机：
@@ -231,6 +260,8 @@ docker compose ps
 | `DASHSCOPE_MODEL` | AI 分析模型 | `qwen2.5-vl-72b-instruct` |
 | `FEISHU_WEBHOOK_URL` | 飞书自定义机器人 Webhook | 可选 |
 | `REPORT_PUBLIC_BASE_URL` | 飞书日报中的公网访问地址 | `https://feedback.example.com` |
+| `DAILY_REPORT_CRON` | 飞书日报定时任务 Cron 表达式 | `0 9 * * *` |
+| `DAILY_REPORT_TIMEZONE` | 飞书日报定时任务时区 | `Asia/Shanghai` |
 | `FEISHU_APP_ID` | 预留飞书应用 ID | 可选 |
 | `FEISHU_APP_SECRET` | 预留飞书应用密钥 | 可选 |
 | `UPLOAD_DIR` | 后端上传目录 | `/app/uploads` |

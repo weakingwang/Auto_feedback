@@ -40,6 +40,8 @@ DB_PASSWORD=change_me_to_a_real_strong_password
 DASHSCOPE_API_KEY=your_dashscope_api_key
 FEISHU_WEBHOOK_URL=your_feishu_bot_webhook_url
 REPORT_PUBLIC_BASE_URL=http://your-domain-or-server-ip
+DAILY_REPORT_CRON=0 9 * * *
+DAILY_REPORT_TIMEZONE=Asia/Shanghai
 ```
 
 Recommended production values:
@@ -289,9 +291,11 @@ Confirm:
 ```env
 FEISHU_WEBHOOK_URL=your_valid_feishu_bot_webhook
 REPORT_PUBLIC_BASE_URL=https://feedback.example.com
+DAILY_REPORT_CRON=0 9 * * *
+DAILY_REPORT_TIMEZONE=Asia/Shanghai
 ```
 
-The automatic report runs every day at `09:00` in the `Asia/Shanghai` timezone.
+The automatic report schedule is controlled by `DAILY_REPORT_CRON` and `DAILY_REPORT_TIMEZONE`. The default value runs every day at `09:00` in the `Asia/Shanghai` timezone.
 
 ### Frontend Opens but API Calls Fail
 
