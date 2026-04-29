@@ -278,7 +278,7 @@ Content-Type: multipart/form-data
 
 **模型：** Qwen2.5-VL
 **API端点：** `https://dashscope.aliyuncs.com/compatible-mode/v1`
-**认证：** API Key (sk-553244831982439da2ff9e938fb4b4ad)
+**认证：** API Key
 **调用方式：** OpenAI兼容格式 (Chat Completions)
 
 ### 6.2 输入格式化
@@ -370,11 +370,6 @@ Content-Type: multipart/form-data
 
 ### 7.3 Webhook配置
 
-**地址：**
-```
-https://open.feishu.cn/open-apis/bot/v2/hook/e00bf023-e17d-48ba-ac11-ff53cc64b897
-```
-
 **请求格式：**
 ```json
 {
@@ -385,9 +380,6 @@ https://open.feishu.cn/open-apis/bot/v2/hook/e00bf023-e17d-48ba-ac11-ff53cc64b89
 }
 ```
 
-或使用富文本卡片（可选）。
-
----
 
 ## 8. 部署配置
 
@@ -630,11 +622,11 @@ server {
 参见 main.css 文件
 
 ### C. API文档
-- DashScope API: https://help.aliyun.com/document_detail/611472.html
-- Feishu Webhook: https://open.feishu.cn/document/ukTMukTMukTM/ucTM5YjL3ETO24yNxkjN
+- DashScope API: your API
+- Feishu Webhook: your webhook
 
 ---
 
 **文档版本：** v1.0  
 **创建日期：** 2025-04-12  
-**最后更新：** 2025-04-12
+**最后更新：** 2025-04-29
