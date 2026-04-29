@@ -1,46 +1,49 @@
 # Auto Feedback
 
-一个面向 Z Code 产品反馈的匿名收集与 AI 结构化分析系统。用户可以提交文字反馈和截图，系统将原始反馈写入 MySQL，并异步调用 DashScope Qwen VL 模型生成可检索、可统计的分析结果。
+Auto Feedback is a lightweight feedback collection and AI triage system for Z Code. Users can submit structured feedback with screenshots, while the backend stores raw feedback in MySQL and asynchronously calls DashScope Qwen VL to produce machine-readable analysis for search, statistics, and daily reports.
 
-## 功能特性
+## Features
 
-- 匿名反馈提交：支持问题类型、问题描述、上下文、环境信息和联系方式。
-- 图片上传：支持 JPG、JPEG、PNG，默认最多 3 张，单张 5 MB。
-- AI 结构化分析：自动归因根因、功能模块、用户意图、流程阶段、严重程度和置信度。
-- 反馈看板：前端展示统计摘要、反馈列表和图片预览。
-- 管理追踪页：提供 HTML 管理页查看反馈列表与单条分析详情。
-- 每日飞书日报：按 Asia/Shanghai 时区每天 09:00 推送前一日反馈概览。
-- Docker Compose 部署：内置 MySQL、Node.js 后端、Nginx 前端服务。
+- Anonymous feedback form with issue type, issue description, context, environment information, contact, and screenshots.
+- Screenshot upload for JPG/JPEG/PNG images, up to 3 files per submission and 5 MB per file by default.
+- Asynchronous AI analysis through DashScope's OpenAI-compatible Chat Completions API.
+- Structured analysis fields for root cause, feature module, user intent, workflow stage, severity, confidence, and reasoning.
+- Feedback dashboard in the Vue app with summary cards, recent feedback, and screenshot preview.
+- HTML admin tracing pages for filtering feedback and reviewing raw user input against AI output.
+- Feishu daily report scheduled at 09:00 Asia/Shanghai, with a manual trigger endpoint for testing.
+- Docker Compose deployment with MySQL, Node.js backend, and Nginx-served frontend.
 
-## 技术栈
+## Tech Stack
 
-- 前端：Vue 3、Vite、Axios
-- 后端：Node.js、Express、mysql2、multer、node-cron
-- 数据库：MySQL 8.0，原始数据和 AI 分析结果分库保存
-- AI：DashScope OpenAI-compatible Chat Completions API
-- 部署：Docker Compose、Nginx
+| Layer | Technology |
+| --- | --- |
+| Frontend | Vue 3, Vite, Axios |
+| Backend | Node.js 20, Express, multer, mysql2, node-cron |
+| Database | MySQL 8.0 |
+| AI | DashScope OpenAI-compatible API, default model `qwen2.5-vl-72b-instruct` |
+| Deployment | Docker Compose, Nginx |
 
-## 项目结构
+## Project Structure
 
 ```text
 auto_feedback/
-├── backend/                 # Express API 服务
-│   ├── src/routes/          # 反馈、统计、管理页面路由
-│   ├── src/services/        # AI 分析、飞书推送等服务
-│   └── src/utils/           # 数据库连接
-├── frontend/                # Vue 3 前端应用
-│   ├── src/components/      # 表单、列表、统计组件
-│   └── src/utils/api.js     # API 客户端
-├── mysql/init.sql           # 数据库和表初始化脚本
-├── uploads/                 # Docker 挂载的上传文件目录
-├── docker-compose.yml       # 一键部署编排
-├── DEPLOYMENT.md            # 部署说明
-└── DEBUGGING_PLAYBOOK.md    # 常见问题排查手册
++-- backend/                 # Express API service
+|   +-- src/routes/          # Feedback, stats, and admin HTML routes
+|   +-- src/services/        # AI analysis and Feishu report services
+|   +-- src/utils/           # MySQL connection helpers
++-- frontend/                # Vue 3 application
+|   +-- src/components/      # Feedback form, list, uploader, summary cards
+|   +-- src/utils/api.js     # Axios API client
++-- mysql/init.sql           # MySQL database and table initialization
++-- uploads/                 # Runtime upload mount point
++-- docker-compose.yml       # Production-like Compose stack
++-- DEPLOYMENT.md            # Server deployment guide
++-- DEBUGGING_PLAYBOOK.md    # Troubleshooting notes
 ```
 
-## 快速开始
+## Quick Start
 
-### 1. 安装依赖
+### 1. Install Dependencies
 
 ```bash
 cd backend
@@ -50,155 +53,175 @@ cd ../frontend
 npm install
 ```
 
-### 2. 配置环境变量
+### 2. Configure Environment Variables
 
-复制根目录模板：
+Create a runtime environment file from the example:
 
 ```bash
 cp .env.example .env
 ```
 
-至少需要配置：
+At minimum, update these values:
 
 ```env
-MYSQL_ROOT_PASSWORD=change_me
-DB_PASSWORD=change_me
+MYSQL_ROOT_PASSWORD=change_me_to_a_strong_password
+DB_PASSWORD=change_me_to_a_strong_password
 DASHSCOPE_API_KEY=your_dashscope_api_key
-FEISHU_WEBHOOK_URL=your_feishu_bot_webhook
+FEISHU_WEBHOOK_URL=your_feishu_bot_webhook_url
 REPORT_PUBLIC_BASE_URL=http://your-domain-or-server-ip
 ```
 
-本地开发时，如果 MySQL 运行在宿主机，设置：
+For local development with MySQL running on the host:
 
 ```env
 DB_HOST=localhost
 UPLOAD_DIR=./uploads
 ```
 
-Docker 部署时，设置：
+For Docker Compose:
 
 ```env
 DB_HOST=mysql
 UPLOAD_DIR=/app/uploads
+NODE_ENV=production
 ```
 
-### 3. 启动开发服务
+### 3. Initialize MySQL
 
-后端：
+The Docker deployment runs `mysql/init.sql` automatically on first startup. For a local MySQL instance, import it manually:
+
+```bash
+mysql -uroot -p < mysql/init.sql
+```
+
+The script creates:
+
+- `raw_data.feedbacks`
+- `processed_data.ai_analysis`
+
+### 4. Start Development Servers
+
+Backend:
 
 ```bash
 cd backend
 npm run dev
 ```
 
-前端：
+Frontend:
 
 ```bash
 cd frontend
 npm run dev -- --host 0.0.0.0 --port 5173
 ```
 
-访问地址：
+Default local URLs:
 
-- 前端：http://127.0.0.1:5173
-- 后端健康检查：http://127.0.0.1:3000/health
+- Frontend: `http://127.0.0.1:5173`
+- Backend health check: `http://127.0.0.1:3000/health`
 
-## Docker 部署
+## Docker Deployment
 
-完整部署步骤见 [DEPLOYMENT.md](./DEPLOYMENT.md)。
+For the full production-style deployment guide, see [DEPLOYMENT.md](./DEPLOYMENT.md).
 
-最小命令：
+Minimal startup flow:
 
 ```bash
 cp .env.example .env
-# 编辑 .env 后执行
+# Edit .env before starting.
 docker compose build
 docker compose up -d
 docker compose ps
 ```
 
-默认端口：
+Default exposed ports:
 
-- 前端 Nginx：`80`
-- 后端 API：`3000`
-- MySQL：仅在 Docker 网络内暴露
+- Frontend Nginx: `80`
+- Backend API: `3000`
+- MySQL: internal Docker network only
 
-## API 概览
+## API Overview
 
-### 用户反馈
+### Feedback
 
-| 方法 | 路径 | 说明 |
+| Method | Path | Description |
 | --- | --- | --- |
-| `POST` | `/api/feedback` | 提交反馈，`multipart/form-data` |
-| `GET` | `/api/feedbacks` | 分页查询反馈列表 |
-| `GET` | `/api/feedbacks/:id` | 查询单条反馈及分析结果 |
-| `GET` | `/api/feedbacks/trace/:id` | 查询反馈和 AI 原始追踪详情 |
+| `POST` | `/api/feedback` | Submit feedback as `multipart/form-data`. |
+| `GET` | `/api/feedbacks` | List feedback records with optional filters. |
+| `GET` | `/api/feedbacks/:id` | Fetch one feedback record with analysis. |
+| `GET` | `/api/feedbacks/trace/:id` | Fetch raw feedback and AI raw response for trace review. |
 
-`GET /api/feedbacks` 支持筛选参数：
+`POST /api/feedback` expects:
 
-- `page`、`limit`
+| Field | Required | Description |
+| --- | --- | --- |
+| `problem_type` | Yes | `cannot_use`, `cannot_understand`, or `not_good_enough`. |
+| `issue_text` | Yes | Main user issue description. |
+| `context_text` | Yes | Context, intended action, or expected result. |
+| `environment_info` | Yes | Z Code version, OS, or relevant runtime information. |
+| `contact` | No | Optional follow-up contact. |
+| `images` | No | Up to 3 image files. |
+
+`GET /api/feedbacks` supports:
+
+- `page`, `limit`
 - `problem_type`
 - `root_cause`
 - `feature_module`
 - `user_intent`
 - `stage`
 - `severity`
-- `date_from`、`date_to`
+- `date_from`, `date_to`
+- `feedback_id`
 - `has_analysis=true|false`
 - `keyword`
 
-### 统计与管理
+### Stats and Admin
 
-| 方法 | 路径 | 说明 |
+| Method | Path | Description |
 | --- | --- | --- |
-| `GET` | `/api/stats/summary` | 统计摘要 |
-| `GET` | `/api/admin/feedbacks/view` | HTML 管理列表页 |
-| `GET` | `/api/admin/feedbacks/trace/:id` | HTML 管理追踪详情页 |
-| `POST` | `/api/admin/send-report` | 手动触发飞书日报 |
-| `GET` | `/health` | 健康检查 |
+| `GET` | `/api/stats/summary` | Summary counts and distributions for the frontend. |
+| `GET` | `/api/admin/feedbacks/view` | HTML admin list and filter page. |
+| `GET` | `/api/admin/feedbacks/trace/:id` | HTML trace detail page for a single feedback item. |
+| `POST` | `/api/admin/send-report` | Manually trigger the Feishu daily report. |
+| `GET` | `/health` | Backend health check. |
 
-## 环境变量
+## Environment Variables
 
-| 变量 | 说明 | 默认/示例 |
+| Variable | Description | Example |
 | --- | --- | --- |
-| `NODE_ENV` | 运行环境 | `production` |
-| `PORT` | 后端监听端口 | `3000` |
-| `MYSQL_ROOT_PASSWORD` | MySQL root 密码 | 必填 |
-| `MYSQL_DATABASE_RAW` | MySQL 初始化原始库名 | `raw_data` |
-| `MYSQL_DATABASE_PROCESSED` | MySQL 初始化分析库名 | `processed_data` |
-| `DB_HOST` | 后端连接 MySQL 主机 | `mysql` |
-| `DB_PORT` | 后端连接 MySQL 端口 | `3306` |
-| `DB_USER` | 数据库用户 | `root` |
-| `DB_PASSWORD` | 数据库密码 | 必填 |
-| `DB_NAME_RAW` | 后端读取的原始库名 | `raw_data` |
-| `DB_NAME_PROCESSED` | 后端读取的分析库名 | `processed_data` |
-| `DASHSCOPE_API_KEY` | DashScope API Key | 必填 |
-| `DASHSCOPE_API_URL` | DashScope OpenAI-compatible 地址 | `https://dashscope.aliyuncs.com/compatible-mode/v1` |
-| `DASHSCOPE_MODEL` | 分析模型 | `qwen2.5-vl-72b-instruct` |
-| `FEISHU_WEBHOOK_URL` | 飞书机器人 Webhook | 可选 |
-| `REPORT_PUBLIC_BASE_URL` | 日报中管理页公网访问地址 | 可选 |
-| `UPLOAD_DIR` | 后端上传目录 | `/app/uploads` |
-| `MAX_FILE_SIZE` | 单文件大小限制，字节 | `5242880` |
-| `MAX_FILES` | 单次上传文件数 | `3` |
+| `NODE_ENV` | Runtime environment. | `production` |
+| `PORT` | Backend port. | `3000` |
+| `MYSQL_ROOT_PASSWORD` | MySQL root password used by the MySQL container. | Required |
+| `MYSQL_DATABASE_RAW` | Raw feedback database initialized by MySQL. | `raw_data` |
+| `MYSQL_DATABASE_PROCESSED` | AI analysis database initialized by `init.sql`. | `processed_data` |
+| `DB_HOST` | MySQL host used by the backend. | `mysql` or `localhost` |
+| `DB_PORT` | MySQL port. | `3306` |
+| `DB_USER` | MySQL user. | `root` |
+| `DB_PASSWORD` | MySQL password used by the backend. | Required |
+| `DB_NAME_RAW` | Raw feedback database used by the backend. | `raw_data` |
+| `DB_NAME_PROCESSED` | AI analysis database used by the backend. | `processed_data` |
+| `DASHSCOPE_API_KEY` | DashScope API key. | Required for AI analysis |
+| `DASHSCOPE_API_URL` | DashScope OpenAI-compatible base URL. | `https://dashscope.aliyuncs.com/compatible-mode/v1` |
+| `DASHSCOPE_MODEL` | Model used for feedback analysis. | `qwen2.5-vl-72b-instruct` |
+| `FEISHU_WEBHOOK_URL` | Feishu custom bot webhook. | Optional |
+| `REPORT_PUBLIC_BASE_URL` | Public base URL used in Feishu report links. | `https://feedback.example.com` |
+| `FEISHU_APP_ID` | Reserved Feishu app ID. | Optional |
+| `FEISHU_APP_SECRET` | Reserved Feishu app secret. | Optional |
+| `UPLOAD_DIR` | Backend upload directory. | `/app/uploads` |
+| `MAX_FILE_SIZE` | Per-file upload limit in bytes. | `5242880` |
+| `MAX_FILES` | Intended max image count per submission. | `3` |
 
-## 验证结果
+## Security Notes
 
-本次检查已执行：
+- Do not commit `.env`, production credentials, real API keys, database passwords, or Feishu webhooks.
+- The current admin pages and manual report endpoint do not implement authentication. Add access control before exposing them on the public internet.
+- Keep backend port `3000` private behind Nginx or a firewall in production.
+- Store uploads on persistent storage and define an operational cleanup policy.
+- Rotate `DASHSCOPE_API_KEY`, `DB_PASSWORD`, and Feishu webhook credentials if they were ever shared.
 
-- `node --check` 检查后端 `src/**/*.js`，通过。
-- `npm run build` 构建前端，通 过。
+## Related Docs
 
-未在本机启动完整 Docker 服务，因为这会依赖本机 Docker、MySQL 初始化状态和真实第三方密钥。
-
-## 安全提示
-
-- 不要提交 `.env`、真实 API Key、数据库密码或飞书 Webhook。
-- `.env.example` 和 `.env.production` 只能保留占位值。
-- 管理页面和手动推送接口当前没有鉴权，对公网开放前建议增加登录、IP 白名单或反向代理鉴权。
-- 上传目录应使用持久化卷，并定期清理无效文件。
-
-## 相关文档
-
-- [部署说明](./DEPLOYMENT.md)
-- [调试手册](./DEBUGGING_PLAYBOOK.md)
-- [产品需求文档](./PRD.md)
+- [Deployment Guide](./DEPLOYMENT.md)
+- [Debugging Playbook](./DEBUGGING_PLAYBOOK.md)
+- [Product Requirements](./PRD.md)
