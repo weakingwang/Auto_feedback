@@ -1,16 +1,41 @@
-# Auto Feedback
+# Auto Feedback | Z Code 反馈收集与 AI 分析系统
 
-Auto Feedback 是一个面向 Z Code 产品反馈的匿名收集与 AI 结构化分析系统。用户可以提交问题描述、补充上下文、环境信息和截图；系统会保存原始反馈，并异步调用 DashScope Qwen VL 模型生成可检索、可统计、可追踪的分析结果。
+[![Node.js 20+](https://img.shields.io/badge/node.js-20+-green.svg)](https://nodejs.org/)
+[![Vue 3](https://img.shields.io/badge/vue-3-42b883.svg)](https://vuejs.org/)
+[![MySQL 8.0](https://img.shields.io/badge/mysql-8.0-blue.svg)](https://www.mysql.com/)
+[![Docker Compose](https://img.shields.io/badge/docker-compose-2496ed.svg)](https://docs.docker.com/compose/)
 
-## 项目能力
+> 一款面向 Z Code 产品体验优化的 **匿名反馈收集与 AI 结构化分析系统**，支持问题反馈提交、截图上传、AI 自动归因、反馈看板、管理追踪页与飞书日报推送。
+>
+> 用户反馈会写入 MySQL 原始数据表，并异步调用 **DashScope Qwen VL** 生成可检索、可统计、可追踪的结构化分析结果。
 
-- 匿名反馈提交：支持问题类型、问题描述、补充上下文、环境信息、联系方式和截图。
-- 图片上传：支持 JPG、JPEG、PNG，默认最多 3 张，单张最大 5 MB。
-- AI 结构化分析：自动识别问题根因、功能模块、用户意图、流程阶段、严重程度、置信度和判断依据。
-- 反馈看板：前端展示统计摘要、反馈列表和截图预览。
-- 管理追踪页：提供 HTML 管理页面，支持按关键词、日期、问题类型和 AI 分类字段筛选反馈。
-- 飞书日报：按 Asia/Shanghai 时区每天 09:00 推送前一日反馈统计，可手动触发。
-- Docker Compose 部署：内置 MySQL、Node.js 后端和 Nginx 前端服务。
+适用于产品团队、研发团队和运营团队集中收集用户问题，快速识别高频故障、体验阻塞、AI 质量问题和功能缺口。项目支持本地开发运行，也支持通过 Docker Compose 一键部署到服务器。
+
+---
+
+## 亮点速览
+
+- **匿名提交**：用户无需登录即可提交问题类型、问题描述、上下文、环境信息、联系方式和截图。
+- **截图辅助分析**：支持 JPG/JPEG/PNG，默认最多 3 张，单张最大 5 MB。
+- **AI 自动归因**：输出根因、功能模块、用户意图、流程阶段、严重程度、置信度和判断依据。
+- **反馈看板**：前端实时展示统计摘要、反馈列表和截图预览。
+- **管理追踪**：内置 HTML 管理页面，支持关键词、日期、问题类型和 AI 分类字段筛选。
+- **飞书日报**：每天 09:00 按 Asia/Shanghai 时区推送前一日反馈概览，也可手动触发。
+- **容器化部署**：内置 MySQL、Express 后端和 Nginx 前端服务，适合服务器快速落地。
+
+---
+
+## 目录
+
+- [亮点速览](#亮点速览)
+- [技术栈](#技术栈)
+- [目录结构](#目录结构)
+- [快速开始](#快速开始)
+- [Docker 部署](#docker-部署)
+- [API 概览](#api-概览)
+- [环境变量](#环境变量)
+- [安全提示](#安全提示)
+- [相关文档](#相关文档)
 
 ## 技术栈
 
