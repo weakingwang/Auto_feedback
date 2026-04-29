@@ -22,19 +22,6 @@
 <p align="center">
   <a href="http://47.95.113.32">Website</a> ·
   <a href="http://47.95.113.32/api/admin/feedbacks/view">Admin</a> ·
-  <a href="#api-概览">API</a> ·
-  <a href="./DEPLOYMENT.md">Deployment</a>
-</p>
-
-<p align="center">
-  <img src="./docs/assets/Admin.png" alt="Auto Feedback 后台反馈追踪查询页面预览" width="900" />
-</p>
-
-<p align="center">
-  <a href="#反馈接口">Feedback API</a> ·
-  <a href="#统计与管理接口">Admin API</a> ·
-  <a href="#环境变量">Config</a> ·
-  <a href="./DEBUGGING_PLAYBOOK.md">Troubleshooting</a>
 </p>
 
 ---
