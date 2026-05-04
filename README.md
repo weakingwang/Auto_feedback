@@ -1,11 +1,11 @@
-# Auto Feedback | Z Code 反馈收集与 AI 分析系统
+# Auto Feedback | 产品反馈收集与 AI 分析系统
 
 [![Node.js 20+](https://img.shields.io/badge/node.js-20+-green.svg)](https://nodejs.org/)
 [![Vue 3](https://img.shields.io/badge/vue-3-42b883.svg)](https://vuejs.org/)
 [![MySQL 8.0](https://img.shields.io/badge/mysql-8.0-blue.svg)](https://www.mysql.com/)
 [![Docker Compose](https://img.shields.io/badge/docker-compose-2496ed.svg)](https://docs.docker.com/compose/)
 
-> 一款面向 Z Code 产品体验优化的 **匿名反馈收集与 AI 结构化分析系统**，支持问题反馈提交、截图上传、AI 自动归因、反馈看板、管理追踪页与飞书日报推送。
+> 一款面向产品体验优化的 **匿名反馈收集与 AI 结构化分析系统**，支持问题反馈提交、截图上传、AI 自动归因、反馈看板、管理追踪页与飞书日报推送。
 >
 > 用户反馈会写入 MySQL 原始数据表，并异步调用 **DashScope Qwen VL** 生成可检索、可统计、可追踪的结构化分析结果。
 
