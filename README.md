@@ -58,7 +58,7 @@
 | 前端 | Vue 3、Vite、Axios |
 | 后端 | Node.js 20、Express、multer、mysql2、node-cron |
 | 数据库 | MySQL 8.0 |
-| AI 分析 | DashScope OpenAI-compatible API，默认模型 `qwen2.5-vl` |
+| AI 分析 | DashScope OpenAI-compatible API，默认模型 `qwen3.5` |
 | 部署 | Docker Compose、Nginx |
 
 ## 目录结构
