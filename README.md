@@ -30,12 +30,10 @@
 - [亮点速览](#亮点速览)
 - [快速开始](#快速开始)
 - [Docker 部署](#docker-部署)
-- [API 概览](#api-概览)
-- [环境变量](#环境变量)
 - [安全提示](#安全提示)
 - [相关文档](#相关文档)
 
-  
+
 ## 亮点速览
 
 - **匿名提交**：用户无需登录即可提交问题类型、问题描述、上下文、环境信息、联系方式和截图。
@@ -147,80 +145,6 @@ docker compose ps
 - 后端 API：`3000`
 - MySQL：仅在 Docker 内部网络暴露
 
-## API 概览
-
-### 反馈接口
-
-| 方法 | 路径 | 说明 |
-| --- | --- | --- |
-| `POST` | `/api/feedback` | 提交反馈，使用 `multipart/form-data`。 |
-| `GET` | `/api/feedbacks` | 分页查询反馈列表，支持筛选。 |
-| `GET` | `/api/feedbacks/:id` | 查询单条反馈及 AI 分析结果。 |
-| `GET` | `/api/feedbacks/trace/:id` | 查询反馈和 AI 原始响应，用于追踪核对。 |
-
-`POST /api/feedback` 字段：
-
-| 字段 | 必填 | 说明 |
-| --- | --- | --- |
-| `problem_type` | 是 | `cannot_use`、`cannot_understand`、`not_good_enough`。 |
-| `issue_text` | 是 | 用户主要问题描述。 |
-| `context_text` | 是 | 当时操作、目标或预期结果。 |
-| `environment_info` | 是 | Z Code 版本、操作系统或相关环境信息。 |
-| `contact` | 否 | 可选联系方式。 |
-| `images` | 否 | 最多 3 张图片。 |
-
-`GET /api/feedbacks` 支持的查询参数：
-
-- `page`、`limit`
-- `problem_type`
-- `root_cause`
-- `feature_module`
-- `user_intent`
-- `stage`
-- `severity`
-- `date_from`、`date_to`
-- `feedback_id`
-- `has_analysis=true|false`
-- `keyword`
-
-### 统计与管理接口
-
-| 方法 | 路径 | 说明 |
-| --- | --- | --- |
-| `GET` | `/api/stats/summary` | 反馈总数、今日数量、问题类型分布和严重程度分布。 |
-| `GET` | `/api/admin/feedbacks/view` | HTML 管理列表和筛选页面。 |
-| `GET` | `/api/admin/feedbacks/trace/:id` | HTML 单条反馈追踪详情页。 |
-| `POST` | `/api/admin/send-report` | 手动触发飞书日报。 |
-| `GET` | `/health` | 后端健康检查。 |
-
-## 环境变量
-
-| 变量 | 说明 | 示例 |
-| --- | --- | --- |
-| `NODE_ENV` | 运行环境 | `production` |
-| `PORT` | 后端监听端口 | `3000` |
-| `MYSQL_ROOT_PASSWORD` | MySQL root 密码 | 必填 |
-| `MYSQL_DATABASE_RAW` | MySQL 初始化原始反馈库名 | `raw_data` |
-| `MYSQL_DATABASE_PROCESSED` | MySQL 初始化 AI 分析库名 | `processed_data` |
-| `DB_HOST` | 后端连接 MySQL 主机 | `mysql` 或 `localhost` |
-| `DB_PORT` | MySQL 端口 | `3306` |
-| `DB_USER` | MySQL 用户 | `root` |
-| `DB_PASSWORD` | 后端连接 MySQL 的密码 | 必填 |
-| `DB_NAME_RAW` | 后端使用的原始反馈库名 | `raw_data` |
-| `DB_NAME_PROCESSED` | 后端使用的 AI 分析库名 | `processed_data` |
-| `DASHSCOPE_API_KEY` | DashScope API Key | AI 分析必填 |
-| `DASHSCOPE_API_URL` | DashScope OpenAI-compatible 地址 | `https://dashscope.aliyuncs.com/compatible-mode/v1` |
-| `DASHSCOPE_MODEL` | AI 分析模型 | `qwen2.5-vl-72b-instruct` |
-| `FEISHU_WEBHOOK_URL` | 飞书自定义机器人 Webhook | 可选 |
-| `REPORT_PUBLIC_BASE_URL` | 飞书日报中的公网访问地址 | `https://feedback.example.com` |
-| `DAILY_REPORT_CRON` | 飞书日报定时任务 Cron 表达式 | `0 9 * * *` |
-| `DAILY_REPORT_TIMEZONE` | 飞书日报定时任务时区 | `Asia/Shanghai` |
-| `FEISHU_APP_ID` | 预留飞书应用 ID | 可选 |
-| `FEISHU_APP_SECRET` | 预留飞书应用密钥 | 可选 |
-| `UPLOAD_DIR` | 后端上传目录 | `/app/uploads` |
-| `MAX_FILE_SIZE` | 单文件上传限制，单位字节 | `5242880` |
-| `MAX_FILES` | 单次上传图片数量 | `3` |
-
 ## 安全提示
 
 - 不要提交 `.env`、真实 API Key、数据库密码或飞书 Webhook。
@@ -232,5 +156,7 @@ docker compose ps
 ## 相关文档
 
 - [部署说明](./DEPLOYMENT.md)
+- [API 文档](./docs/API.md)
+- [环境变量说明](./docs/ENVIRONMENT.md)
 - [排障手册](./DEBUGGING_PLAYBOOK.md)
 - [产品需求文档](./PRD.md)
