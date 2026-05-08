@@ -1,11 +1,11 @@
-# Auto Feedback | Z Code 反馈收集与 AI 分析系统
+# Auto Feedback | 反馈收集问卷系统
 
 [![Node.js 20+](https://img.shields.io/badge/node.js-20+-green.svg)](https://nodejs.org/)
 [![Vue 3](https://img.shields.io/badge/vue-3-42b883.svg)](https://vuejs.org/)
 [![MySQL 8.0](https://img.shields.io/badge/mysql-8.0-blue.svg)](https://www.mysql.com/)
 [![Docker Compose](https://img.shields.io/badge/docker-compose-2496ed.svg)](https://docs.docker.com/compose/)
 
-> 一款面向 Z Code 产品体验优化的 **匿名反馈收集与 AI 结构化分析系统**，支持问题反馈提交、截图上传、AI 自动归因、反馈看板、管理追踪页与飞书日报推送。
+> 一款面向产品体验优化的 **匿名反馈收集与 AI 结构化分析系统**，支持问题反馈提交、截图上传、AI 自动归因、反馈看板、管理追踪页与飞书日报推送。
 >
 > 用户反馈会写入 MySQL 原始数据表，并异步调用 **DashScope Qwen VL** 生成可检索、可统计、可追踪的结构化分析结果。
 
@@ -22,8 +22,6 @@
 <p align="center">
   <a href="http://47.95.113.32">Website</a> ·
   <a href="http://47.95.113.32/api/admin/feedbacks/view">Admin</a> ·
-  <a href="#api-概览">API</a> ·
-  <a href="./DEPLOYMENT.md">Deployment</a>
 </p>
 
 <p align="center">
@@ -33,8 +31,6 @@
 <p align="center">
   <a href="#反馈接口">Feedback API</a> ·
   <a href="#统计与管理接口">Admin API</a> ·
-  <a href="#环境变量">Config</a> ·
-  <a href="./DEBUGGING_PLAYBOOK.md">Troubleshooting</a>
 </p>
 
 ---
@@ -55,43 +51,12 @@
 
 - [界面预览](#界面预览)
 - [亮点速览](#亮点速览)
-- [技术栈](#技术栈)
-- [目录结构](#目录结构)
 - [快速开始](#快速开始)
 - [Docker 部署](#docker-部署)
 - [API 概览](#api-概览)
 - [环境变量](#环境变量)
 - [安全提示](#安全提示)
 - [相关文档](#相关文档)
-
-## 技术栈
-
-| 模块 | 技术 |
-| --- | --- |
-| 前端 | Vue 3、Vite、Axios |
-| 后端 | Node.js 20、Express、multer、mysql2、node-cron |
-| 数据库 | MySQL 8.0 |
-| AI 分析 | DashScope OpenAI-compatible API，默认模型 `qwen2.5-vl-72b-instruct` |
-| 部署 | Docker Compose、Nginx |
-
-## 目录结构
-
-```text
-auto_feedback/
-+-- backend/                 # Express API 服务
-|   +-- src/routes/          # 反馈、统计、管理页面路由
-|   +-- src/services/        # AI 分析、飞书日报服务
-|   +-- src/utils/           # MySQL 连接工具
-+-- frontend/                # Vue 3 前端应用
-|   +-- src/components/      # 表单、列表、上传、统计组件
-|   +-- src/utils/api.js     # Axios API 封装
-+-- infra/mysql/init.sql     # 数据库和表初始化脚本
-+-- docs/                    # 参考资料、提示词和开发计划
-+-- uploads/                 # 运行时上传目录挂载点
-+-- docker-compose.yml       # Docker Compose 编排
-+-- DEPLOYMENT.md            # 部署说明
-+-- DEBUGGING_PLAYBOOK.md    # 排障手册
-```
 
 ## 快速开始
 
