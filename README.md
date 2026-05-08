@@ -5,9 +5,7 @@
 [![MySQL 8.0](https://img.shields.io/badge/mysql-8.0-blue.svg)](https://www.mysql.com/)
 [![Docker Compose](https://img.shields.io/badge/docker-compose-2496ed.svg)](https://docs.docker.com/compose/)
 
-> 一款面向产品体验优化的 **匿名反馈收集与 AI 结构化分析系统**，支持问题反馈提交、截图上传、AI 自动归因、反馈看板、管理追踪页与飞书日报推送。
->
-> 用户反馈会写入 MySQL 原始数据表，并异步调用 **DashScope Qwen VL** 生成可检索、可统计、可追踪的结构化分析结果。
+> 一款面向产品体验优化的 **匿名反馈收集与 AI 结构化分析系统**，支持问题反馈提交、截图上传、AI 自动归因、反馈看板、管理追踪页与飞书日报推送。用户反馈会写入 MySQL 原始数据表，并异步调用 **DashScope Qwen VL** 生成可检索、可统计、可追踪的结构化分析结果。
 
 适用于产品团队、研发团队和运营团队集中收集用户问题，快速识别高频故障、体验阻塞、AI 质量问题和功能缺口。项目支持本地开发运行，也支持通过 Docker Compose 一键部署到服务器。
 
@@ -23,6 +21,7 @@
   <a href="http://47.95.113.32">Website</a> ·
   <a href="http://47.95.113.32/api/admin/feedbacks/view">Admin</a> ·
 </p>
+
 ---
 
 ## 目录
